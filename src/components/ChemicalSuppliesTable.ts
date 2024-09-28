@@ -3,7 +3,7 @@ import { logger } from "../logger";
 
 export class ChemicalSuppliesTable {
   private supplies: ChemicalSupply[];
-  private tableElement: HTMLTableElement;
+  private tableElement!: HTMLTableElement;
   private initialSupplies: ChemicalSupply[];
   private currentSort: {
     column: keyof ChemicalSupply;
@@ -36,21 +36,21 @@ export class ChemicalSuppliesTable {
         <tr>
           <th class="p-2 border border-gray-300"><input type="checkbox" id="selectAll"></th>
           ${Object.keys(this.supplies[0])
-        .filter((key) => key !== "selected" && key !== "id")
-        .map(
-          (key) =>
-            `<th class="p-2 border border-gray-300 cursor-pointer" data-sort="${key}">
+            .filter((key) => key !== "selected" && key !== "id")
+            .map(
+              (key) =>
+                `<th class="p-2 border border-gray-300 cursor-pointer" data-sort="${key}">
               ${key.charAt(0).toUpperCase() + key.slice(1)}
               ${this.getSortIndicator(key as keyof ChemicalSupply)}
             </th>`,
-        )
-        .join("")}
+            )
+            .join("")}
         </tr>
       </thead>
       <tbody>
         ${this.supplies
-        .map(
-          (supply) => `
+          .map(
+            (supply) => `
           <tr class="${supply.selected ? "bg-blue-100" : ""}">
             <td class="p-2 border border-gray-300"><input type="checkbox" ${supply.selected ? "checked" : ""} data-id="${supply.id}"></td>
             ${Object.entries(supply)
@@ -62,8 +62,8 @@ export class ChemicalSuppliesTable {
               .join("")}
           </tr>
         `,
-        )
-        .join("")}
+          )
+          .join("")}
       </tbody>
     `;
 
@@ -256,9 +256,9 @@ export class ChemicalSuppliesTable {
             this.supplies[selectedIndices[i]],
             this.supplies[selectedIndices[i] - 1],
           ] = [
-              this.supplies[selectedIndices[i] - 1],
-              this.supplies[selectedIndices[i]],
-            ];
+            this.supplies[selectedIndices[i] - 1],
+            this.supplies[selectedIndices[i]],
+          ];
         }
       }
     } else {
@@ -271,9 +271,9 @@ export class ChemicalSuppliesTable {
             this.supplies[selectedIndices[i]],
             this.supplies[selectedIndices[i] + 1],
           ] = [
-              this.supplies[selectedIndices[i] + 1],
-              this.supplies[selectedIndices[i]],
-            ];
+            this.supplies[selectedIndices[i] + 1],
+            this.supplies[selectedIndices[i]],
+          ];
         }
       }
     }
