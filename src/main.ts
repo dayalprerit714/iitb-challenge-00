@@ -6,7 +6,7 @@ import type { ChemicalSupply } from "./types";
 
 document.addEventListener("DOMContentLoaded", () => {
   const app = document.querySelector<HTMLDivElement>("#app");
-  if (!app) throw new Error("App container not found");
+  if (app === null) throw new Error("App container not found");
 
   const table = new ChemicalSuppliesTable(initialChemicalSupplies);
 
@@ -93,4 +93,53 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   logger.info("Application initialized");
+
+  function showOfflineWarning() {
+    if (app === null) {
+      throw new Error("App is still not defined");
+    }
+
+    const warning = document.createElement("div");
+
+    warning.textContent =
+      "You are currently offline. Some features may be limited.";
+    warning.className =
+      "bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4";
+    app.insertBefore(warning, app.firstChild);
+  }
+
+  function removeOfflineWarning() {
+    const warning = document.querySelector(".bg-yellow-100");
+    if (warning) {
+      warning.remove();
+    }
+  }
+
+  window.addEventListener("online", () => {
+    removeOfflineWarning();
+    logger.info("Application is back online");
+  });
+
+  window.addEventListener("offline", () => {
+    showOfflineWarning();
+    logger.info("Application is offline");
+  });
+
+  if (!navigator.onLine) {
+    showOfflineWarning();
+  }
 });
+
+// Setup for PWA support
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((registration) => {
+        console.log("Service Worker registered successfully:", registration);
+      })
+      .catch((error) => {
+        console.log("Service Worker registration failed:", error);
+      });
+  });
+}
