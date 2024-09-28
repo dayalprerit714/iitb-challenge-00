@@ -8,15 +8,22 @@ class Logger {
   /**
    * To handle log events
    * */
-  public log(message: string) {
-    console.log(`[${new Date().toISOString()}] ${message}`);
+  public info(message: string) {
+    console.log(`[${new Date().toISOString()}][INFO] ${message}`);
   }
 
   /**
    * To handle errors
    * */
   public error(message: string) {
-    console.error(`[${new Date().toISOString()}] ${message}`);
+    console.log(`[${new Date().toISOString()}][ERROR] ${message}`);
+  }
+
+  /**
+   * To handle warnings
+   * */
+  public warn(message: string) {
+    console.log(`[${new Date().toISOString()}][WARN] ${message}`);
   }
 }
 
